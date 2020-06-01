@@ -4,7 +4,7 @@
 
 > you can check every progress in each branch 
 
-## Build Setup
+### Build Setup
 
 ``` bash
 # install dependencies
