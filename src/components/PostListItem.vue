@@ -17,18 +17,14 @@
         </div>
 
         <div class="post-date text-faded">
-          <AppDate :timestamp="post.publishedAt"/>
+          <AppDate :timestamp="post.publishAt"/>
         </div>
       </div>
 </template>
 
 <script>
 import sourceData from '@/data'
-import AppDate from './AppDate'
 export default {
-  components: {
-    AppDate
-  },
   props:{
     post: {
       required: true,
