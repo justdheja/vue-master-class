@@ -2,7 +2,7 @@
 
 > Awesome Forum 
 
-> you can check every progress in each branch 
+you can check every progress in each branch 
 
 ### Build Setup
 
