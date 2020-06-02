@@ -40,10 +40,10 @@
 
         <li class="navbar-user">
           <a href="#">
-            <img class="avatar-small" src="https://avatars2.githubusercontent.com/u/43841780?s=460&u=89470c23faf664256e0ae48fc4a332a3b9c086e6&v=4"
+            <img class="avatar-small" :src="user.avatar"
                 alt="">
             <span>
-                Dheja
+                {{user.name}}
                 <img class="icon-profile" src="../assets/img/arrow-profile.svg" alt="">
             </span>
           </a>
@@ -64,7 +64,14 @@
 </template>
 
 <script>
-  export default {}
+import {mapGetters} from 'vuex'
+export default {
+  computed: {
+    ...mapGetters({
+      'user': 'authUser'
+    })
+  }
+}
 </script>
 
 <style scoped>
