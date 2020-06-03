@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import sourceData from '@/data'
+import {countObjectProperties} from '@/utils'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,9 @@ export default new Vuex.Store({
   getters: {
     authUser (state) {
       return state.users[state.authId]
-    }
+    },
+    userThreadsCount: state => id => countObjectProperties(state.users[id].threads),
+    userPostsCount: state => id => countObjectProperties(state.users[id].posts)
   },
 
   actions: {
@@ -49,20 +52,6 @@ export default new Vuex.Store({
       })
     },
 
-<<<<<<< HEAD
-    updateThread ({state, commit}, {title, text, id}) {
-      return new Promise((resolve, reject) => {
-        const thread = state.threads[id]
-        const post = state.posts[thread.firstPostId]
-
-        const newThread = {...thread, title}
-        const newPost = {...post, text}
-
-        commit('setThread', {thread: newThread, threadId: id})
-        commit('setPost', {post: newPost, postId: thread.firstPostId})
-
-        resolve(newThread)
-=======
     updateThread ({state, commit, dispatch}, {title, text, id}) {
       return new Promise((resolve, reject) => {
         const thread = state.threads[id]
@@ -91,7 +80,6 @@ export default new Vuex.Store({
           }
         })
         resolve(post)
->>>>>>> 304b0ef40da13102000d74cc34a0319e8630876f
       })
     },
 
