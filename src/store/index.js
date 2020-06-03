@@ -1,27 +1,33 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import sourceData from '@/data'
+import firebase from 'firebase'
 import {countObjectProperties} from '@/utils'
 
 Vue.use(Vuex)
 
-const makeAppendChildToParentMutation = ({parent, child}) => (state, {childId, parentId}) => {
-  const resource = state[parent][parentId]
-  if (!resource[child]) {
-    Vue.set(resource, child, {})
+const makeAppendChildToParentMutation = ({parent, child}) =>
+  (state, {childId, parentId}) => {
+    const resource = state[parent][parentId]
+    if (!resource[child]) {
+      Vue.set(resource, child, {})
+    }
+    Vue.set(resource[child], childId, childId)
   }
-  Vue.set(resource[child], childId, childId)
-}
 
 export default new Vuex.Store({
   state: {
-    ...sourceData,
-    authId: 'L664y3qZSubDbT1R6npC0EEybJ73'
+    categories: {},
+    forums: {},
+    threads: {},
+    posts: {},
+    users: {},
+    authId: 'VXjpr2WHa8Ux4Bnggym8QFLdv5C3'
   },
 
   getters: {
     authUser (state) {
-      return state.users[state.authId]
+      // return state.users[state.authId]
+      return {}
     },
 
     userThreadsCount: state => id => countObjectProperties(state.users[id].threads),
@@ -95,6 +101,39 @@ export default new Vuex.Store({
 
     updateUser ({commit}, user) {
       commit('setUser', {userId: user['.key'], user})
+    },
+
+    fetchThread ({state, commit}, {id}) {
+      console.log('fire thread', id)
+      return new Promise((resolve, reject) => {
+        firebase.database().ref('threads').child(id).once('value', snapshot => {
+          const thread = snapshot.val()
+          commit('setThread', {threadId: snapshot.key, thread: {...thread, '.key': snapshot.key}})
+          resolve(state.threads[id])
+        })
+      })
+    },
+
+    fetchUser ({state, commit}, {id}) {
+      console.log('fire‍ user', id)
+      return new Promise((resolve, reject) => {
+        firebase.database().ref('users').child(id).once('value', snapshot => {
+          const user = snapshot.val()
+          commit('setUser', {userId: snapshot.key, user: {...user, '.key': snapshot.key}})
+          resolve(state.users[id])
+        })
+      })
+    },
+
+    fetchPost ({state, commit}, {id}) {
+      console.log('fire post', id)
+      return new Promise((resolve, reject) => {
+        firebase.database().ref('posts').child(id).once('value', snapshot => {
+          const post = snapshot.val()
+          commit('setPost', {postId: snapshot.key, post: {...post, '.key': snapshot.key}})
+          resolve(state.posts[id])
+        })
+      })
     }
   },
 
