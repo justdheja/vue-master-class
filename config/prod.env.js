@@ -1,12 +1,13 @@
 'use strict'
+require('dotenv').config()
 module.exports = {
-  FIREBASE_NODE_ENV: '"production"',
-  FIREBASE_API_KEY: "'AIzaSyC4deZsicr434GP3RKjRt2mrAUh42Kck9Y'",
-  FIREBASE_AUTH_DOMAIN: "'awesome-vue-forum.firebaseapp.com'",
-  FIREBASE_DATABASE_URL: "'https://awesome-vue-forum.firebaseio.com'",
-  FIREBASE_PROJECT_ID: "'awesome-vue-forum'",
-  FIREBASE_STORAGE_BUCKET: "'awesome-vue-forum.appspot.com'",
-  FIREBASE_MESSAGING_SENDER_ID: "'588423112979'",
-  FIREBASE_APP_ID: "'1:588423112979:web:2a81ee8018a6f7d10712e6'",
-  FIREBASE_MEASUREMENT_ID: "'G-YEJSVLWBN6'"
+  NODE_ENV: '"production"',
+  FIREBASE_API_KEY: JSON.stringify(process.env.FIREBASE_API_KEY),
+  FIREBASE_AUTH_DOMAIN: JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
+  FIREBASE_DATABASE_URL: JSON.stringify(process.env.FIREBASE_DATABASE_URL),
+  FIREBASE_PROJECT_ID: JSON.stringify(process.env.FIREBASE_PROJECT_ID),
+  FIREBASE_STORAGE_BUCKET: JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
+  FIREBASE_MESSAGING_ID: JSON.stringify(process.env.FIREBASE_MESSAGING_ID),
+  FIREBASE_APP_ID: JSON.stringify(process.env.FIREBASE_APP_ID),
+  FIREBASE_MEASUREMENT_ID: JSON.stringify(process.env.FIREBASE_MEASUREMENT_ID)
 }
