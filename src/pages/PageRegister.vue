@@ -36,7 +36,7 @@
 
       </form>
       <div class="text-center push-top">
-        <button class="btn-red btn-xsmall"><i class="fa fa-google fa-btn"></i>Sign up with Google</button>
+        <button @click="registerWithGoogle" class="btn-red btn-xsmall"><i class="fa fa-google fa-btn"></i>Sign up with Google</button>
       </div>
     </div>
   </div>
@@ -44,9 +44,9 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      form:{
+      form: {
         name: null,
         username: null,
         email: null,
@@ -55,17 +55,22 @@ export default {
       }
     }
   },
-
   methods: {
-    register() {
-      console.log(this.form)
-      this.$store.dispatch('createUser', this.form)
+    register () {
+      this.$store.dispatch('registerUserWithEmailAndPassword', this.form)
+        .then(() => this.$router.push('/'))
+    },
+
+    registerWithGoogle(){
+      this.$store.dispatch('signInWithGoogle')
         .then(() => this.$router.push('/'))
     }
   },
-
-  created(){
+  created () {
     this.$emit('ready')
   }
 }
 </script>
+
+<style scoped>
+</style>
