@@ -1,5 +1,5 @@
 <template>
-  <div class="col-full push-top">
+  <div v-if="ready" class="col-full push-top">
     <h1>Welcome to the Forum</h1>
     <CategoryList :categories="categories"/>
   </div>
@@ -18,21 +18,22 @@ export default {
     }
   },
 
+  data() {
+    return {
+      ready: false
+    }
+  },
+
   methods: {
     ...mapActions(['fetchAllCategories', 'fetchForums'])
   },
 
   created() {
     this.fetchAllCategories()
-      .then(categories => {
-        categories.forEach(category => this.fetchForums({ids: Object.keys(category.forums)}))
+      .then(categories => Promise.all(categories.map(category => this.fetchForums({ids: Object.keys(category.forums)}))))
+      .then(() => {
+        this.ready = true
       })
   },
-
-  data () {
-    return {
-      
-    }
-  }
 }
 </script>
