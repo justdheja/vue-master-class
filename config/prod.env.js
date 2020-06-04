@@ -1,6 +1,6 @@
 'use strict'
 module.exports = {
-  NODE_ENV: '"production"',
+  FIREBASE_NODE_ENV: '"production"',
   FIREBASE_API_KEY: "'AIzaSyC4deZsicr434GP3RKjRt2mrAUh42Kck9Y'",
   FIREBASE_AUTH_DOMAIN: "'awesome-vue-forum.firebaseapp.com'",
   FIREBASE_DATABASE_URL: "'https://awesome-vue-forum.firebaseio.com'",
