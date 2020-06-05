@@ -32,12 +32,12 @@ import UserProfileCardEditor from '@/components/UserProfileCardEditor'
 import {mapGetters} from 'vuex'
 
 export default {
-  props: {
-    edit: {
-      required: true,
-      type: Boolean
-    }
-  },
+  // props: {
+  //   edit: {
+  //     required: true,
+  //     type: Boolean
+  //   }
+  // },
   components: {
     PostList,
     UserProfileCard,

@@ -14,8 +14,7 @@ import NotFound from '@/pages/PageNotFound'
 Vue.use(Router)
 
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'Home',
       component: Home
@@ -55,13 +54,17 @@ const router = new Router({
       name: 'Profile',
       component: Profile,
       props: true,
-      meta: { requireAuth: true }
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/me/edit',
       name: 'ProfileEdit',
       component: Profile,
-      props: {edit: true}
+      props: {
+        edit: true
+      }
     },
     {
       path: '/register',
@@ -76,9 +79,11 @@ const router = new Router({
     {
       path: '/logout',
       name: 'SignOut',
-      beforeEnter (to, from, next) {
+      beforeEnter(to, from, next) {
         store.dispatch('signOut')
-          .then(() => next({name: 'Home'}))
+          .then(() => next({
+            name: 'Home'
+          }))
       }
     },
     {
@@ -92,15 +97,20 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   console.log(`🚈 navigation to ${to.name} from ${from.name}`)
-  if(to.matched.some(route => route.meta.requireAuth)){
-    if (store.state.authId) {
-      next()
-    } else {
-      next({name: 'Home'})
-    }
-  } else {
-    next()
-  }
+  store.dispatch('initAuthentication')
+    .then(user => {
+      if (to.matched.some(route => route.meta.requireAuth)) {
+        if (user) {
+          next()
+        } else {
+          next({
+            name: 'Home'
+          })
+        }
+      } else {
+        next()
+      }
+    })
 })
 
 export default router
