@@ -33,7 +33,7 @@ export default {
 
   setUnsubscribeAuthObserver (state, unsubscribe) {
     state.unsubscribeAuthObserver = unsubscribe
-  }
+  },
 
   appendPostToThread: makeAppendChildToParentMutation({parent: 'threads', child: 'posts'}),
   

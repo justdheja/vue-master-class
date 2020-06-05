@@ -14,7 +14,8 @@ import NotFound from '@/pages/PageNotFound'
 Vue.use(Router)
 
 const router = new Router({
-  routes: [{
+  routes: [
+    {
       path: '/',
       name: 'Home',
       component: Home
@@ -35,55 +36,55 @@ const router = new Router({
       path: '/thread/create/:forumId',
       name: 'ThreadCreate',
       component: ThreadCreate,
-      props: true
+      props: true,
+      meta: { requiresAuth: true }
     },
     {
       path: '/thread/:id',
       name: 'ThreadShow',
       component: ThreadShow,
-      props: true,
+      props: true
     },
     {
       path: '/thread/:id/edit',
       name: 'ThreadEdit',
       component: ThreadEdit,
-      props: true
+      props: true,
+      meta: { requiresAuth: true }
     },
     {
       path: '/me',
       name: 'Profile',
       component: Profile,
       props: true,
-      meta: {
-        requireAuth: true
-      }
+      meta: { requiresAuth: true }
     },
     {
       path: '/me/edit',
       name: 'ProfileEdit',
       component: Profile,
-      props: {
-        edit: true
-      }
+      props: {edit: true},
+      meta: { requiresAuth: true }
     },
     {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      meta: { requiresGuest: true }
     },
     {
       path: '/signin',
       name: 'SignIn',
-      component: SignIn
+      component: SignIn,
+      meta: { requiresGuest: true }
     },
     {
       path: '/logout',
       name: 'SignOut',
-      beforeEnter(to, from, next) {
+      meta: { requiresAuth: true },
+      beforeEnter (to, from, next) {
         store.dispatch('signOut')
-          .then(() => next({
-            name: 'Home'
-          }))
+          .then(() => next({name: 'Home'}))
       }
     },
     {
@@ -96,16 +97,23 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(`🚈 navigation to ${to.name} from ${from.name}`)
+  console.log(`🚆 navigating to ${to.name} from ${from.name}`)
+
   store.dispatch('initAuthentication')
     .then(user => {
-      if (to.matched.some(route => route.meta.requireAuth)) {
+      if (to.matched.some(route => route.meta.requiresAuth)) {
+        // protected route
         if (user) {
           next()
         } else {
-          next({
-            name: 'Home'
-          })
+          next({name: 'SignIn', query: {redirectTo: to.path}})
+        }
+      } else if (to.matched.some(route => route.meta.requiresGuest)) {
+        // protected route
+        if (!user) {
+          next()
+        } else {
+          next({name: 'Home'})
         }
       } else {
         next()
