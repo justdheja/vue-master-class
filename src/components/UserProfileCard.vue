@@ -30,7 +30,7 @@
 
     </div>
 
-    <p class="text-xsmall text-faded text-center">Member since <AppDate :timestamp="user.registeredAt"/>, last visited 4 hours ago</p>
+    <p class="text-xsmall text-faded text-center">Member since <AppDate :timestamp="user.registeredAt"/></p>
 
     <div class="text-center">
       <hr>
