@@ -12,19 +12,20 @@
     </div>
     <div class="form-actions">
       <button v-if="isUpdate" @click.prevent="cancel" class="btn btn-ghost">Cancel</button>
-      <button class="btn-blue">{{isUpdate ? 'Update' : 'Submit Post'}}</button>
+      <button class="btn-blue">{{isUpdate ? 'Update' : 'Submit post'}}</button>
     </div>
   </form>
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     export default {
       props: {
         threadId: {
           required: false
         },
+
         post: {
-          type: Object,
           type: Object,
           validator: obj => {
             const keyIsValid = typeof obj['.key'] === 'string'
@@ -40,41 +41,51 @@
           }
         }
       },
+
       data () {
         return {
           text: this.post ? this.post.text : ''
         }
       },
+
       computed: {
         isUpdate () {
           return !!this.post
         }
       },
+
       methods: {
+        ...mapActions('posts', ['createPost', 'updatePost']),
+
         save () {
           this.persist()
             .then(post => {
               this.$emit('save', {post})
             })
         },
-        cancel() {
+
+        cancel () {
           this.$emit('cancel')
         },
+
         create () {
           const post = {
             text: this.text,
             threadId: this.threadId
           }
           this.text = ''
-          return this.$store.dispatch('createPost', post)
+
+          return this.createPost(post)
         },
+
         update () {
           const payload = {
             id: this.post['.key'],
             text: this.text
           }
-          return this.$store.dispatch('updatePost', payload)
+          return this.updatePost(payload)
         },
+
         persist () {
           return this.isUpdate ? this.update() : this.create()
         }
@@ -83,4 +94,5 @@
 </script>
 
 <style scoped>
+
 </style>

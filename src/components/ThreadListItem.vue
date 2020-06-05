@@ -29,20 +29,21 @@
 </template>
 
 <script>
-export default {
-  props: {
-    thread: {
-      required: true,
-      type: Object
-    }
-  },
-  computed: {
-    repliesCount () {
-      return this.$store.getters.threadRepliesCount(this.thread['.key'])
+  export default {
+    props: {
+      thread: {
+        required: true,
+        type: Object
+      }
     },
-    user () {
-      return this.$store.state.users[this.thread.userId]
+
+    computed: {
+      repliesCount () {
+        return this.$store.getters['threads/threadRepliesCount'](this.thread['.key'])
+      },
+      user () {
+        return this.$store.state.users.items[this.thread.userId]
+      }
     }
   }
-}
 </script>

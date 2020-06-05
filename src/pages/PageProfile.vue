@@ -19,6 +19,12 @@
 
       <hr>
       <PostList :posts="userPosts"/>
+      <template v-if="userPosts.length < 1">
+        <div class="text-center">
+          <img src="https://i.ebayimg.com/images/g/2Y0AAOSwXeJYJ1n8/s-l400.jpg" style="opacity: .5;width:100%;max-width:350px">
+          <h1>No Activity Found</h1>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -27,16 +33,16 @@
 import PostList from '@/components/PostList'
 import UserProfileCard from '@/components/UserProfileCard'
 import UserProfileCardEditor from '@/components/UserProfileCardEditor'
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import asyncDataStatus from '@/mixins/asyncDataStatus'
 
 export default {
+  mixins: [asyncDataStatus],
   components: {
     PostList,
     UserProfileCard,
     UserProfileCardEditor
   },
-  mixins: [asyncDataStatus],
   props: {
     edit: {
       type: Boolean,
@@ -45,18 +51,25 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'authUser'
+      user: 'auth/authUser'
     }),
     userPosts () {
-      return this.$store.getters.userPosts(this.user['.key'])
+      return this.$store.getters['users/userPosts'](this.user['.key'])
     }
   },
+  methods: {
+    ...mapActions('posts', ['fetchPosts'])
+  },
   created () {
-    this.$store.dispatch('fetchPosts', {ids: this.user.posts})
-      .then(() => this.asyncDataStatus_fetched())
+    if (!this.user.posts) {
+      this.asyncDataStatus_fetched()
+      this.$emit('ready')
+      return false
+    }
+    this.$store.dispatch('posts/fetchPosts', { ids: this.user.posts }).then(() => {
+      this.asyncDataStatus_fetched()
+      this.$emit('ready')
+    })
   }
 }
 </script>
-
-<style scoped>
-</style

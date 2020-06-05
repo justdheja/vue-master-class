@@ -52,37 +52,43 @@
 </template>
 
 <script>
-export default {
-  props: {
-    user: {
-      required: true,
-      type: Object
+    export default {
+      props: {
+        user: {
+          required: true,
+          type: Object
+        }
+      },
+
+      data () {
+        return {
+          activeUser: {...this.user}
+        }
+      },
+
+      computed: {
+        userThreadsCount () {
+          return this.$store.getters['users/userThreadsCount'](this.user['.key'])
+        },
+
+        userPostsCount () {
+          return this.$store.getters['users/userPostsCount'](this.user['.key'])
+        }
+      },
+
+      methods: {
+        save () {
+          this.$store.dispatch('users/updateUser', {...this.activeUser})
+          this.$router.push({name: 'Profile'})
+        },
+
+        cancel () {
+          this.$router.push({name: 'Profile'})
+        }
+      }
     }
-  },
-  data () {
-    return {
-      activeUser: {...this.user}
-    }
-  },
-  computed: {
-    userThreadsCount () {
-      return this.$store.getters.userThreadsCount(this.user['.key'])
-    },
-    userPostsCount () {
-      return this.$store.getters.userPostsCount(this.user['.key'])
-    }
-  },
-  methods: {
-    save () {
-      this.$store.dispatch('updateUser', {...this.activeUser})
-      this.$router.push({name: 'Profile'})
-    },
-    cancel() {
-      this.$router.push({name: 'Profile'})
-    }
-  }
-}
 </script>
 
 <style scoped>
+
 </style>

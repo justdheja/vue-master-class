@@ -36,7 +36,7 @@
                 <router-link :to="{name: 'Profile'}">View Profile</router-link>
               </li>
               <li class="dropdown-menu-item">
-                <a @click.prevent="$store.dispatch('signOut')">Sign Out</a>
+                <a @click.prevent="$store.dispatch('auth/signOut')">Sign Out</a>
               </li>
             </ul>
           </div>
@@ -55,20 +55,22 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-export default {
-  data() {
-    return {
-      userDropdownOpen: false
+  import {mapGetters} from 'vuex'
+  export default {
+    data () {
+      return {
+        userDropdownOpen: false
+      }
+    },
+
+    computed: {
+      ...mapGetters({
+        'user': 'auth/authUser'
+      })
     }
-  },
-  computed: {
-    ...mapGetters({
-      'user': 'authUser'
-    })
   }
-}
 </script>
 
 <style scoped>
+
 </style>

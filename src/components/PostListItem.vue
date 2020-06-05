@@ -36,35 +36,42 @@
 </template>
 
 <script>
-import PostEditor from './PostEditor'
-export default {
-  props: {
-    post: {
-      required: true,
-      type: Object
+    import PostEditor from './PostEditor'
+
+    export default {
+      props: {
+        post: {
+          required: true,
+          type: Object
+        }
+      },
+
+      components: {
+        PostEditor
+      },
+
+      data () {
+        return {
+          editing: false
+        }
+      },
+
+      computed: {
+        user () {
+          return this.$store.state.users.items[this.post.userId]
+        },
+
+        userPostsCount () {
+          return this.$store.getters['users/userPostsCount'](this.post.userId)
+        },
+
+        userThreadsCount () {
+          return this.$store.getters['users/userThreadsCount'](this.post.userId)
+        }
+      }
     }
-  },
-  components: {
-    PostEditor
-  },
-  data () {
-    return {
-      editing: false
-    }
-  },
-  computed: {
-    user () {
-      return this.$store.state.users[this.post.userId]
-    },
-    userPostsCount () {
-      return this.$store.getters.userPostsCount(this.post.userId)
-    },
-    userThreadsCount () {
-      return this.$store.getters.userThreadsCount(this.post.userId)
-    },
-  }
-}
 </script>
 
 <style scoped>
+
 </style>

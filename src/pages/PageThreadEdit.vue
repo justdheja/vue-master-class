@@ -1,7 +1,7 @@
 <template>
   <div v-if="asyncDataStatus_ready" class="col-full push-top">
 
-    <h1>Edit <i>{{thread.title}}</i></h1>
+    <h1>Editing <i>{{thread.title}}</i></h1>
 
     <ThreadEditor
       ref="editor"
@@ -17,24 +17,29 @@
 import {mapActions} from 'vuex'
 import ThreadEditor from '@/components/ThreadEditor'
 import asyncDataStatus from '@/mixins/asyncDataStatus'
+
 export default {
   components: {
     ThreadEditor
   },
+
+  mixins: [asyncDataStatus],
+
   props: {
     id: {
       type: String,
       required: true
     }
   },
-  mixins: [asyncDataStatus],
+
   computed: {
     thread () {
-      return this.$store.state.threads[this.id]
+      return this.$store.state.threads.items[this.id]
     },
+
     text () {
-      const post = this.$store.state.posts[this.thread.firstPostId]
-      return post? post.text : null
+      const post = this.$store.state.posts.items[this.thread.firstPostId]
+      return post ? post.text : null
     },
 
     hasUnsavedChanges () {
@@ -43,8 +48,11 @@ export default {
       return this.$refs.editor.form.title !== this.thread.title || this.$refs.editor.form.text !== this.text
     }
   },
+
   methods: {
-    ...mapActions(['updateThread', 'fetchThread', 'fetchPost']),
+    ...mapActions('threads', ['updateThread', 'fetchThread']),
+    ...mapActions('posts', ['fetchPost']),
+
     save ({title, text}) {
       this.updateThread({
         id: this.id,
@@ -54,11 +62,13 @@ export default {
         this.$router.push({name: 'ThreadShow', params: {id: this.id}})
       })
     },
+
     cancel () {
       this.$router.push({name: 'ThreadShow', params: {id: this.id}})
     }
   },
-  created() {
+
+  created () {
     this.fetchThread({id: this.id})
       .then(thread => this.fetchPost({id: thread.firstPostId}))
       .then(() => { this.asyncDataStatus_fetched() })
@@ -66,7 +76,7 @@ export default {
 
   beforeRouteLeave (to, from, next) {
     if (this.hasUnsavedChanges) {
-      const confirmed = window.confirm('Are you sure you wanna leave? unsaved changes will be lost')
+      const confirmed = window.confirm('Are you sure you want to leave? Any unsaved changes will be lost!')
       if (confirmed) {
         next()
       } else {
@@ -80,4 +90,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
