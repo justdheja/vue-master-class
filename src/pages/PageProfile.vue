@@ -22,7 +22,7 @@
       <template v-if="userPosts.length < 1">
         <div class="text-center">
           <img src="https://i.ebayimg.com/images/g/2Y0AAOSwXeJYJ1n8/s-l400.jpg" style="opacity: .5;width:100%;max-width:350px">
-          <h1>No Activity Found</h1>
+          <h1>{{user.name}} has no activity yet</h1>
         </div>
       </template>
     </div>
