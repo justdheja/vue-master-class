@@ -1,6 +1,6 @@
 # Awesome Forum :sparkles:
 
-> An submission repo for MamiCAMP 2020
+> A submission repo for MamiCAMP 2020
 
 you can check every progress in each branch 
 
@@ -9,6 +9,7 @@ you can check every progress in each branch
 * [Vuex](https://vuex.vuejs.org)
 * [Vue Router](https://router.vuejs.org/)
 * [vuelidate](https://vuelidate.js.org/)
+* [yarn](https://yarnpkg.com/)
 * [Firebase(RTDB)](https://firebase.google.com)
 * [moment.js](https://momentjs.com/)
 
@@ -21,4 +22,7 @@ yarn
 
 # serve with hot reload at localhost:8080
 yarn dev
+
+# build for production
+yarn build
 ```

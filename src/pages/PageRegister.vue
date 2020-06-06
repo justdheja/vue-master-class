@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-grid justify-center">
+  <div class="flex-grid justify-center page-register">
     <div class="col-2">
 
       <form @submit.prevent="register" class="card card-form">
@@ -144,4 +144,7 @@ export default {
 </script>
 
 <style scoped>
+.page-register{
+  margin-bottom: 15vh;
+}
 </style>

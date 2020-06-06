@@ -9,7 +9,6 @@ export default {
 
   actions: {
     fetchAllCategories ({state, commit}) {
-      console.log('🔥', '🏷', 'all')
       return new Promise((resolve, reject) => {
         firebase.database().ref('categories').once('value', snapshot => {
           const categoriesObject = snapshot.val()

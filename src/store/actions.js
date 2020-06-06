@@ -2,7 +2,6 @@ import firebase from 'firebase'
 
 export default {
   fetchItem ({state, commit}, {id, emoji, resource}) {
-    console.log('🔥‍', emoji, id)
     return new Promise((resolve, reject) => {
       firebase.database().ref(resource).child(id).once('value', snapshot => {
         commit('setItem', {resource, id: snapshot.key, item: snapshot.val()})

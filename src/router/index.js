@@ -11,6 +11,7 @@ import Profile from '@/pages/PageProfile'
 import Register from '@/pages/PageRegister'
 import SignIn from '@/pages/PageSignIn'
 import NotFound from '@/pages/PageNotFound'
+
 Vue.use(Router)
 
 const router = new Router({
